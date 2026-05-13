@@ -1,9 +1,9 @@
 # Fix Validation Report
 
 ## Bug 1 – bug1_fixed.py
-- **Input**: `items=[1,2,3,4,5], n=5`  
-- **Expected Output**: `[1,2,3,4,5]`  
-- **Actual Output**: `[1,2,3,4,5]`  
+- **Input**: `items=[1, 2, 3, 4, 5], n=5`  
+- **Expected Output**: `[1, 2, 3, 4, 5]`  
+- **Actual Output**: `[1, 2, 3, 4, 5]`  
 - **Manual Tweaks**: None. Simplified slice via `max(0, len(items) - n)`.
 
 ## Bug 2 – bug2_fixed.js
