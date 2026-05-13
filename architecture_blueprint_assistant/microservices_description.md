@@ -1,10 +1,10 @@
 # Microservices Architecture
 
-- **API Gateway**: Single entry point that handles routing, rate limiting, and request authentication before forwarding to downstream microservices.  
-- **Auth Service**: Manages user registration, secure credential validation, and JWT token issuance with its own isolated database instance.  
-- **Itinerary Service**: Core functional microservice responsible for creating, updating, and storing personalized travel itineraries.  
-- **Supplier Aggregator Service**: Handles asynchronous non-blocking connection pipelines to fetch and cache third-party flight and hotel pricing metrics.  
-- **Collaboration Sync Service**: Uses persistent web-socket connections to coordinate concurrent multi-user schedule mutations without blocking other application data paths.  
-- **Budget Optimization Service**: High-compute algorithmic worker instance that analyzes cost metrics to isolate economical travel alternatives based on user financial triggers.  
-- **Notification Service**: Event-driven worker that consumes message queue topics to dispatch real-time multi-channel push updates, SMS text alerts, and operational email receipts.  
-- **Analytics & Metrics Service**: Collects real-time transactional footprints and structural tracing data to generate auditing metrics and system performance monitoring logs.
+- **API Gateway**: Single entry point built on Reverse Proxy routing that handles TLS termination, rate limiting via Redis token buckets, and global JWT verification before forwarding valid HTTP requests to downstream internal microservices.  
+- **Auth Service**: Manages secure user authentication, bcrypt password hashing, and user registration flows. Persists data inside an isolated **Auth DB (PostgreSQL)** and communicates token states synchronously via internal gRPC endpoints.  
+- **Itinerary Service**: Core business logic controller handling the creation, update, and schema validation of custom travel itineraries. Persists data inside a relational **Itinerary DB (MySQL)** and interacts asynchronously with notifications via message publishing.  
+- **Supplier Aggregator Service**: Connects to external third-party flight and hotel booking carrier interfaces using non-blocking asynchronous connection workers. Caches expensive upstream payload responses locally inside an in-memory **Cache DB (Redis)**.  
+- **Collaboration Sync Service**: Facilitates real-time simultaneous multi-user planning state edits over persistent stateful WebSockets. Relies on a highly concurrent document store **NoSQL Sync DB (MongoDB)** to resolve document race conditions.  
+- **Budget Optimization Service**: High-compute specialized background algorithmic worker that runs offline heuristic calculations to minimize travel expenses. Stores localized optimization weight matrices in a dedicated **Heuristics DB (PostgreSQL)**.  
+- **Notification Service**: Event-driven consumer microservice that listens to specific message broker channels. Pulls pending transaction triggers from a transient **Queue DB (RabbitMQ)** to dispatch external multi-channel push payloads and emails.  
+- **Analytics & Metrics Service**: Ingests high-frequency system telemetry data, operational tracing footprints, and transaction logs. Pipes all structural audit metrics directly into a distributed **Time-Series DB (InfluxDB)** for platform auditing.
