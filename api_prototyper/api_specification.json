@@ -3,7 +3,7 @@
   "info": {
     "title": "Inventory API",
     "version": "1.0.0",
-    "description": "API for managing e-commerce product inventory with full error handling."
+    "description": "API for managing e-commerce product inventory with full error handling and explicit pagination schema."
   },
   "components": {
     "securitySchemes": {
@@ -12,19 +12,51 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "sku": { "type": "string" },
+          "price": { "type": "number" },
+          "quantity": { "type": "integer" }
+        }
+      },
+      "PaginatedProducts": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" },
+          "totalPages": { "type": "integer" },
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Product" }
+          }
+        }
+      }
     }
   },
   "paths": {
     "/products": {
       "get": {
-        "summary": "List and search products",
+        "summary": "List and search products with pagination behavior",
         "security": [{"bearerAuth": []}],
         "parameters": [
           { "in": "query", "name": "limit", "schema": { "type": "integer", "default": 10 } },
           { "in": "query", "name": "page", "schema": { "type": "integer", "default": 1 } }
         ],
         "responses": {
-          "200": { "description": "Successful response" },
+          "200": {
+            "description": "Successful response with full paginated metadata and data structure",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PaginatedProducts" }
+              }
+            }
+          },
           "401": { "description": "Unauthorized - Missing or invalid token" },
           "500": { "description": "Internal server error" }
         }

@@ -2,17 +2,50 @@ openapi: 3.0.3
 info:
   title: Inventory API
   version: 1.0.0
-  description: API for managing e-commerce product inventory with full error handling.
+  description: API for managing e-commerce product inventory with full error handling and explicit pagination schema.
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+    PaginatedProducts:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of products found
+        page:
+          type: integer
+          description: Current page number
+        limit:
+          type: integer
+          description: Items per page
+        totalPages:
+          type: integer
+          description: Total number of pages
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
 paths:
   /products:
     get:
-      summary: List and search products
+      summary: List and search products with pagination behavior
       security:
         - bearerAuth: []
       parameters:
@@ -28,7 +61,11 @@ paths:
             default: 1
       responses:
         '200':
-          description: Successful response with list of products
+          description: Successful response with full paginated metadata and data structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProducts'
         '401':
           description: Unauthorized - Invalid or missing token
         '500':
