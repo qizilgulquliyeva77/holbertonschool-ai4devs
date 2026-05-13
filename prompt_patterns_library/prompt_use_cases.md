@@ -27,6 +27,11 @@
   - **Input**: Misbehaving functional code + expected runtime parameters  
   - **Output**: Detected logic variance + corrected algorithmic logic  
 
+- **Regression Optimization**
+  - **Goal**: Isolate specific code changes introduced between commits that broke existing features  
+  - **Input**: Git diff log + prior working performance metrics  
+  - **Output**: Breakdown of regressive lines + localized fix  
+
 ## Documentation
 - **API Reference Generation**
   - **Goal**: Generate production-grade interface contracts from raw logic implementations  
