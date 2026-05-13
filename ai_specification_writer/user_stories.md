@@ -79,13 +79,3 @@ As a driver, I want to set a recurrent weekly commuting schedule so that I do no
 - System sends alert updates to preferred match histories 24 hours prior to launch.  
 
 **Priority**: Low
-
-### User Story 9
-As a user, I want to filter my potential ride matches by music and conversation preferences so that my commuting environment is pleasant.
-
-**Acceptance Criteria**:
-- Profile creation workflow includes toggles for cabin environment tags (e.g., Quiet, Chatty, Pop Music).  
-- Matching grid automatically boosts compatibility ranking for users with matching preferences.  
-- System flags conflicting cabin styles during selection previews.  
-
-**Priority**: Low
