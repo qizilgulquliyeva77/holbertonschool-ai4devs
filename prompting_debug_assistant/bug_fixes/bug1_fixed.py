@@ -6,7 +6,6 @@ def get_last_n_items(items, n):
     if n <= 0:
         return []
     
-    # AI Fix Applied: Removed the broken conditional check and simplified slicing.
     start_index = max(0, len(items) - n)
     return items[start_index:]
 
