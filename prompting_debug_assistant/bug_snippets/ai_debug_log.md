@@ -19,7 +19,7 @@
 **Result**: Fix works as expected. Each session log array remains fully isolated.
 
 ## Bug 4 – bug4.c
-**Indended Behavior vs Bug**: The loop validation conditional guard `i <= src_len` causes an off-by-one boundary violation, copying data outside the allocated stack limits and failing to guarantee safe, explicit null-termination if memory space runs out.  
+**AI Diagnosis**: The loop validation conditional guard `i <= src_len` causes an off-by-one boundary violation, copying data outside the allocated stack limits and failing to guarantee safe, explicit null-termination if memory space runs out.  
 **Suggested Fix**: Change loop execution condition to `i < src_len` and explicitly ensure `dest[src_len] = '\0';` immediately outside the processing boundary, while validating incoming length sizes against fixed array bounds.  
 **Alternative Fixes Tested**: Utilizing standard library `strncpy()` or bounded alternative functions.  
 **Result**: Buffers successfully copy characters up to their respective capacity bounds without memory leaks or segmentation faults.
